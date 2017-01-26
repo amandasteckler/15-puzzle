@@ -59,6 +59,22 @@ function clicked(block) {
     blockToTheRight = document.getElementById(blockToTheRightId.toString())
   }
 
+  var currentRow = document.getElementById(block.id).parentElement.children
+  var currentClassesOfRow = []
+
+  for (var i=0; i < currentRow.length; i++) {
+    currentClassesOfRow.push(document.getElementById(currentRow[i].id).className)
+  }
+
+  if (currentClassesOfRow.indexOf("unfilled") === 1) {
+    if (currentClassesOfRow.indexOf("unfilled") === 3) {
+      document.getElementById(currentRow[0].id).className = "unfilled"
+      document.getElementById(currentRow[0].id).innerText = ""
+      document.getElementById(currentRow[3].id) = document.getElementById(currentRow[2].id)
+      document.getElementById(currentRow[2].id) = document.getElementById(currentRow[1].id)
+    }
+  }
+
   // switch the blocks
   switchBlocks(block, blockOnTop, blockOnBottom, blockToTheLeft, blockToTheRight)
 }
