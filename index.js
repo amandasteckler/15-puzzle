@@ -60,20 +60,52 @@ function clicked(block) {
   }
 
   var currentRow = document.getElementById(block.id).parentElement.children
-  var currentClassesOfRow = []
-
+  var currentRowArray = []
   for (var i=0; i < currentRow.length; i++) {
-    currentClassesOfRow.push(document.getElementById(currentRow[i].id).className)
+    currentRowArray.push(currentRow[i])
   }
 
-  if (currentClassesOfRow.indexOf("unfilled") === 1) {
-    if (currentClassesOfRow.indexOf("unfilled") === 3) {
-      document.getElementById(currentRow[0].id).className = "unfilled"
-      document.getElementById(currentRow[0].id).innerText = ""
-      document.getElementById(currentRow[3].id) = document.getElementById(currentRow[2].id)
-      document.getElementById(currentRow[2].id) = document.getElementById(currentRow[1].id)
+  var blockIndex = currentRowArray.indexOf(block)
+
+  // 1. loop through the row
+    // 2. if you hit an element where className === "unfilled"
+    // 3. set variable unfilledBlock = that element
+    // 4. set unfilledBlockIndex equal to position i
+    // 5. set unfilledBlockId equal to its id
+    // 6. if blockIndex minus unfilledBlockIndex is greater than 1 (ie they are not next to each other)
+      // 7. find the difference
+      // 8. set the clicked blocks inner HTML to "" and class to "unfilled"
+      // 9. for the remaining blocks in the row (which is indexDifference.length blocks long)
+        // 10. find the id of the first element in the row, set it's innerHTML and className to those of the next block
+        // 11. continue until all of the remaining blocks are done
+  for (var i=0; i < currentRowArray.length; i++) {
+    if (currentRowArray[i].className === "unfilled") {
+      var unfilledBlock = currentRowArray[i]
+      var unfilledBlockIndex = i
+      var unfilledBlockId = unfilledBlock.id
+      if (blockIndex - unfilledBlockIndex > 1) {
+        var indexDifference = blockIndex - unfilledBlockIndex
+        block.innerHTML = ""
+        block.className = "unfilled"
+        for (var j=0; j < indexDifference.length; j++) {
+          document.getElementById(currentRowArray[j].id).innerHTML = currentRowArray[j+1].innerHTML
+          document.getElementById(currentRowArray[j].id).className = "filled"
+        }
+      }
     }
   }
+
+  // var currentClassesOfRow = []
+  // currentClassesOfRow.push(document.getElementById(currentRow[i].id).className)
+
+  // if (currentClassesOfRow.indexOf("unfilled") === 1) {
+  //   if (currentClassesOfRow.indexOf("unfilled") === 3) {
+  //     document.getElementById(currentRow[0].id).className = "unfilled"
+  //     document.getElementById(currentRow[0].id).innerText = ""
+  //     document.getElementById(currentRow[3].id) = document.getElementById(currentRow[2].id)
+  //     document.getElementById(currentRow[2].id) = document.getElementById(currentRow[1].id)
+  //   }
+  // }
 
   // switch the blocks
   switchBlocks(block, blockOnTop, blockOnBottom, blockToTheLeft, blockToTheRight)
