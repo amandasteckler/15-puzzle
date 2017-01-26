@@ -33,47 +33,39 @@ function clicked(block) {
   // get clicked block id
   blockId = parseInt(block.id)
 
-  // block on top will be 4 less
+  // calculate neighbor blocks
   blockOnTopId = blockId - 4
   blockOnTop = document.getElementById(blockOnTopId.toString())
 
-  // block on bottom will be 4 more
   blockOnBottomId = blockId + 4
   blockOnBottom = document.getElementById(blockOnBottomId.toString())
 
-  // block to the left will be one less
-  blockToTheLeftId = blockId - 1
-  blockToTheLeft = document.getElementById(blockToTheLeftId.toString())
+  if ((blockId-1) % 4 === 0) {
+    blockToTheLeft = null
+  } else {
+    blockToTheLeftId = blockId - 1
+    blockToTheLeft = document.getElementById(blockToTheLeftId.toString())
+  }
 
-  // block to the right will be one more
-  blockToTheRightId = blockId + 1
-  blockToTheRight = document.getElementById(blockToTheRightId.toString())
+  if (blockId % 4 === 0) {
+    blockToTheRight = null
+  } else {
+    blockToTheRightId = blockId + 1
+    blockToTheRight = document.getElementById(blockToTheRightId.toString())
+  }
 
-  // come back to the issue where 5-1 = 4 for example
+  var neighborBlocks = [blockOnBottom, blockOnTop, blockToTheLeft, blockToTheRight]
 
-  // if the block on the bottom exists and is empty
-  // switch the block's and the bottom block's content/class
-  // repeat for each possible move
-  if (blockOnBottom != null && blockOnBottom.innerHTML === "") {
-    blockOnBottom.innerHTML = block.innerHTML
-    blockOnBottom.className = "filled"
-    block.innerHTML = ""
-    block.className = "unfilled"
-  } else if (blockOnTop != null && blockOnTop.innerHTML === "") {
-    blockOnTop.innerHTML = block.innerHTML
-    blockOnTop.className = "filled"
-    block.innerHTML = ""
-    block.className = "unfilled"
-  } else if (blockToTheLeft != null && blockToTheLeft.innerHTML === "") {
-    blockToTheLeft.innerHTML = block.innerHTML
-    blockToTheLeft.className = "filled"
-    block.innerHTML = ""
-    block.className = "unfilled"
-  } else if (blockToTheRight != null && blockToTheRight.innerHTML === "") {
-    blockToTheRight.innerHTML = block.innerHTML
-    blockToTheRight.className = "filled"
-    block.innerHTML = ""
-    block.className = "unfilled"
+  // when the neighboring block is not null and innerHTML is "", switch
+  // blocks' class names & content
+  for (let currentBlock of neighborBlocks) {
+    if (currentBlock != null && currentBlock.innerHTML === "") {
+      currentBlock.innerHTML = block.innerHTML
+      currentBlock.className = "filled"
+      block.innerHTML = ""
+      block.className = "unfilled"
+      break
+    }
   }
 
   // iterate through table rows, if id & content match, push true, otherwise, push false
