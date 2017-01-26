@@ -1,5 +1,8 @@
 window.addEventListener("load", false);
 
+// declare variable to set up winning status
+var won = false
+
 function newGame() {
   // create array of all the table rows' contents
   var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""]
@@ -12,21 +15,21 @@ function newGame() {
         nums[j] = k;
     }
 
+  assignInnerHTMLToIds(nums)
+}
+
+function assignInnerHTMLToIds(numsArray) {
   // iterate through table rows, set contents equal to shuffled nums
   // set class for "" element to "unfilled", otherwise to "filled"
-  for (var p=0; p < nums.length; p++) {
+  for (var p=0; p < numsArray.length; p++) {
     currentElement = document.getElementById((p + 1).toString());
-    currentElement.innerHTML = nums[p];
+    currentElement.innerHTML = numsArray[p];
     if (currentElement.innerHTML === "") {
       currentElement.className = "unfilled"
     } else {
       currentElement.className = "filled"
     }
   }
-
-  // declare variable to set up winning status
-  var won = false
-
 }
 
 function clicked(block) {
@@ -55,20 +58,30 @@ function clicked(block) {
     blockToTheRight = document.getElementById(blockToTheRightId.toString())
   }
 
-  var neighborBlocks = [blockOnBottom, blockOnTop, blockToTheLeft, blockToTheRight]
+  // switch the blocks
+  switchBlocks(block, blockOnTop, blockOnBottom, blockToTheLeft, blockToTheRight)
+}
+
+function switchBlocks(current, top, bottom, left, right) {
+  var neighborBlocks = [bottom, top, left, right]
 
   // when the neighboring block is not null and innerHTML is "", switch
   // blocks' class names & content
-  for (let currentBlock of neighborBlocks) {
-    if (currentBlock != null && currentBlock.innerHTML === "") {
-      currentBlock.innerHTML = block.innerHTML
-      currentBlock.className = "filled"
-      block.innerHTML = ""
-      block.className = "unfilled"
+  for (let blockElement of neighborBlocks) {
+    if (blockElement != null && blockElement.innerHTML === "") {
+      blockElement.innerHTML = current.innerHTML
+      blockElement.className = "filled"
+      current.innerHTML = ""
+      current.className = "unfilled"
       break
     }
   }
 
+  // see if all the table's rows' ids and content match
+  matching()
+}
+
+function matching() {
   // iterate through table rows, if id & content match, push true, otherwise, push false
   var matchingIdAndContent = []
   for (var i=1; i < 16; i++) {
@@ -79,9 +92,12 @@ function clicked(block) {
       matchingIdAndContent.push(false)
     }
   }
+  userWon(matchingIdAndContent)
+}
 
-  // if a false exists in the matchingIdAndContent array, user hasn't won yet
-  if (matchingIdAndContent.indexOf(false) < 0) {
+function userWon(arr) {
+  // if a false exists in the array, user hasn't won yet
+  if (arr.indexOf(false) < 0) {
     won = true
   }
 
