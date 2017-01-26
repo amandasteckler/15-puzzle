@@ -1,5 +1,26 @@
 window.addEventListener("load", false);
 
+function newGame() {
+  var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""]
+  for (var i = nums.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var k = nums[i];
+        nums[i] = nums[j];
+        nums[j] = k;
+    }
+
+  for (var p=0; p < nums.length; p++) {
+    currentElement = document.getElementById((p + 1).toString());
+    currentElement.innerHTML = nums[p]
+    if (currentElement.innerHTML === "") {
+      currentElement.className = "unfilled"
+    } else {
+      currentElement.className = "filled"
+    }
+  }
+
+}
+
 function clicked(block) {
   blockId = parseInt(block.id)
 
@@ -17,22 +38,22 @@ function clicked(block) {
 
   // come back to the issue where 5-1 = 4 for example
 
-  if (blockOnBottom.innerHTML === "") {
+  if (blockOnBottom != null && blockOnBottom.innerHTML === "") {
     blockOnBottom.innerHTML = block.innerHTML
     blockOnBottom.className = "filled"
     block.innerHTML = ""
     block.className = "unfilled"
-  } else if (blockOnTop.innerHTML === "") {
+  } else if (blockOnTop != null && blockOnTop.innerHTML === "") {
     blockOnTop.innerHTML = block.innerHTML
     blockOnTop.className = "filled"
     block.innerHTML = ""
     block.className = "unfilled"
-  } else if (blockToTheLeft.innerHTML === "") {
+  } else if (blockToTheLeft != null && blockToTheLeft.innerHTML === "") {
     blockToTheLeft.innerHTML = block.innerHTML
     blockToTheLeft.className = "filled"
     block.innerHTML = ""
     block.className = "unfilled"
-  } else if (blockToTheRight.innerHTML === "") {
+  } else if (blockToTheRight != null && blockToTheRight.innerHTML === "") {
     blockToTheRight.innerHTML = block.innerHTML
     blockToTheRight.className = "filled"
     block.innerHTML = ""
