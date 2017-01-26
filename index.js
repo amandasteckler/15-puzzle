@@ -65,33 +65,35 @@ function clicked(block) {
     currentRowArray.push(currentRow[i])
   }
 
-  var blockIndex = currentRowArray.indexOf(block)
+  var blockIndex = currentRowArray.indexOf(block);
+  var indexDifference
 
-  // 1. loop through the row
-    // 2. if you hit an element where className === "unfilled"
-    // 3. set variable unfilledBlock = that element
-    // 4. set unfilledBlockIndex equal to position i
-    // 5. set unfilledBlockId equal to its id
-    // 6. if blockIndex minus unfilledBlockIndex is greater than 1 (ie they are not next to each other)
-      // 7. find the difference
-      // 8. set the clicked blocks inner HTML to "" and class to "unfilled"
-      // 9. for the remaining blocks in the row (which is indexDifference.length blocks long)
-        // 10. find the id of the first element in the row, set it's innerHTML and className to those of the next block
-        // 11. continue until all of the remaining blocks are done
   for (var i=0; i < currentRowArray.length; i++) {
     if (currentRowArray[i].className === "unfilled") {
       var unfilledBlock = currentRowArray[i]
       var unfilledBlockIndex = i
       var unfilledBlockId = unfilledBlock.id
       if (blockIndex - unfilledBlockIndex > 1) {
-        var indexDifference = blockIndex - unfilledBlockIndex
+        indexDifference = blockIndex - unfilledBlockIndex
+        for (var j=unfilledBlockIndex; j < indexDifference+1; j++) {
+          if (currentRowArray[j+1]) {
+            document.getElementById(currentRowArray[j].id).innerHTML = currentRowArray[j+1].innerHTML
+            document.getElementById(currentRowArray[j].id).className = "filled"
+          }
+        }
         block.innerHTML = ""
         block.className = "unfilled"
-        for (var j=0; j < indexDifference.length; j++) {
-          document.getElementById(currentRowArray[j].id).innerHTML = currentRowArray[j+1].innerHTML
-          document.getElementById(currentRowArray[j].id).className = "filled"
+      } else if (unfilledBlockIndex - blockIndex > 1) {
+        indexDifference = unfilledBlockIndex - blockIndex
+        for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
+          if (currentRowArray[j-1]){
+            document.getElementById(currentRowArray[j]).innerHTML = currentRowArray[j-1].innerHTML
+            document.getElementById(currentRowArray[j]).className = "filled"
+          }
         }
       }
+      block.innerHTML = ""
+      block.className = "unfilled"
     }
   }
 
