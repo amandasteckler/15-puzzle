@@ -15,6 +15,7 @@ function newGame() {
         nums[j] = k;
     }
 
+  // use shuffled array to shuffle the board
   assignInnerHTMLToIds(nums)
 }
 
@@ -92,6 +93,8 @@ function matching() {
       matchingIdAndContent.push(false)
     }
   }
+
+  // check to see if user won
   userWon(matchingIdAndContent)
 }
 
