@@ -40,6 +40,7 @@ function clicked(block) {
   blockOnBottomId = blockId + 4
   blockOnBottom = document.getElementById(blockOnBottomId.toString())
 
+  // make sure to set edge block's left or right block = null if they don't exist
   if ((blockId-1) % 4 === 0) {
     blockToTheLeft = null
   } else {
