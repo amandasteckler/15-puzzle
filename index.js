@@ -19,6 +19,8 @@ function newGame() {
     }
   }
 
+  var won = false
+
 }
 
 function clicked(block) {
@@ -58,5 +60,24 @@ function clicked(block) {
     blockToTheRight.className = "filled"
     block.innerHTML = ""
     block.className = "unfilled"
+  }
+
+  var ordered = []
+  for (var i=1; i < 16; i++) {
+    var el = document.getElementById(i.toString())
+    if (el.id === el.innerHTML) {
+      ordered.push(true)
+    } else {
+      ordered.push(false)
+    }
+  }
+
+  if (ordered.indexOf(false) < 0) {
+    won = true
+  }
+
+  if (won === true) {
+    wonDiv = document.getElementById("won")
+    wonDiv.innerHTML = "You won!"
   }
 }
