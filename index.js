@@ -83,31 +83,21 @@ function clicked(block) {
         }
         block.innerHTML = ""
         block.className = "unfilled"
-      } else if (unfilledBlockIndex - blockIndex > 1) {
-        indexDifference = unfilledBlockIndex - blockIndex
-        for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
-          if (currentRowArray[j-1]){
-            document.getElementById(currentRowArray[j]).innerHTML = currentRowArray[j-1].innerHTML
-            document.getElementById(currentRowArray[j]).className = "filled"
-          }
-        }
       }
-      block.innerHTML = ""
-      block.className = "unfilled"
+
+      // else if (unfilledBlockIndex - blockIndex > 1) {
+      //   indexDifference = unfilledBlockIndex - blockIndex
+      //   for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
+      //     if (currentRowArray[j-1]){
+      //       document.getElementById(currentRowArray[j]).innerHTML = currentRowArray[j-1].innerHTML
+      //       document.getElementById(currentRowArray[j]).className = "filled"
+      //     }
+      //   }
+      // }
+      // block.innerHTML = ""
+      // block.className = "unfilled"
     }
   }
-
-  // var currentClassesOfRow = []
-  // currentClassesOfRow.push(document.getElementById(currentRow[i].id).className)
-
-  // if (currentClassesOfRow.indexOf("unfilled") === 1) {
-  //   if (currentClassesOfRow.indexOf("unfilled") === 3) {
-  //     document.getElementById(currentRow[0].id).className = "unfilled"
-  //     document.getElementById(currentRow[0].id).innerText = ""
-  //     document.getElementById(currentRow[3].id) = document.getElementById(currentRow[2].id)
-  //     document.getElementById(currentRow[2].id) = document.getElementById(currentRow[1].id)
-  //   }
-  // }
 
   // switch the blocks
   switchBlocks(block, blockOnTop, blockOnBottom, blockToTheLeft, blockToTheRight)
