@@ -109,7 +109,6 @@ function findCurrentColumn(block) {
 }
 
 function moveRowOrColumn(block, currentRowOrColumn) {
-
   // find block's index in array
   var blockIndex = currentRowOrColumn.indexOf(block);
   var indexDifference;
@@ -195,6 +194,6 @@ function userWon(arr) {
   // if user won, add winning message to <div id="won"></div>
   if (won === true) {
     wonDiv = document.getElementById("won")
-    wonDiv.innerHTML = "You won!"
+    wonDiv.innerHTML = "<h3>You won!</h3>"
   }
 }
