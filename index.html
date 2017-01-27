@@ -16,12 +16,17 @@
         margin-left: auto;
         margin-right: auto;
         border: 3px solid black;
+        border-radius: 5px;
+        background-color: #b7c9e8;
       }
 
       .filled {
         padding: 25px;
         border: 1px solid black;
         border-radius: 5px;
+        height: 50px;
+        width: 50px;
+        background-color: #70a6ff;
       }
 
       .unfilled {
@@ -30,6 +35,9 @@
     </style>
   </head>
   <body onload="newGame()">
+
+    <p>15-Puzzle</p>
+
     <table id="centered-table">
       <tr>
         <td id="1" class="filled" onclick="clicked(this)">1</td>

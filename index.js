@@ -83,19 +83,17 @@ function clicked(block) {
         }
         block.innerHTML = ""
         block.className = "unfilled"
+      } else if (unfilledBlockIndex - blockIndex > 1) {
+        indexDifference = unfilledBlockIndex - blockIndex
+        for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
+          if (currentRowArray[j-1]){
+            document.getElementById(currentRowArray[j].id).innerHTML = currentRowArray[j-1].innerHTML
+            document.getElementById(currentRowArray[j].id).className = "filled"
+          }
+        }
+        block.innerHTML = ""
+        block.className = "unfilled"
       }
-
-      // else if (unfilledBlockIndex - blockIndex > 1) {
-      //   indexDifference = unfilledBlockIndex - blockIndex
-      //   for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
-      //     if (currentRowArray[j-1]){
-      //       document.getElementById(currentRowArray[j]).innerHTML = currentRowArray[j-1].innerHTML
-      //       document.getElementById(currentRowArray[j]).className = "filled"
-      //     }
-      //   }
-      // }
-      // block.innerHTML = ""
-      // block.className = "unfilled"
     }
   }
 
