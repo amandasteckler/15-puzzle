@@ -1,5 +1,3 @@
-window.addEventListener("load", false);
-
 // declare variable to set up winning status
 var won = false
 
@@ -59,26 +57,41 @@ function clicked(block) {
     blockToTheRight = document.getElementById(blockToTheRightId.toString())
   }
 
+  // find row's column if need-be
+  targetRow = findCurrentRow(block);
+
+  // find block's column if need-be
+  targetColumn = findCurrentColumn(block);
+
+  // move a row/column if need-be
+  moveRowOrColumn(block, targetRow);
+  moveRowOrColumn(block, targetColumn);
+
+  // switch the blocks if they are neighboring
+  switchBlocks(block, blockOnTop, blockOnBottom, blockToTheLeft, blockToTheRight);
+}
+
+function findCurrentRow(block) {
   var currentRow = document.getElementById(block.id).parentElement.children
 
-  // find and move a column if need-be
-  targetColumn = findCurrentColumn(block);
-  moveColumn(block, targetColumn);
-
-  // move a row if need-be
-  moveRow(block, currentRow);
-
-  // switch the blocks
-  switchBlocks(block, blockOnTop, blockOnBottom, blockToTheLeft, blockToTheRight);
+  // convert list of row elements into array
+  var targetRow = []
+  for (var i=0; i < currentRow.length; i++) {
+    targetRow.push(currentRow[i])
+  }
+  return targetRow;
 }
 
 function findCurrentColumn(block) {
   var tds = document.getElementsByTagName("td")
+
+  // convert list of column elements into array
   var tdsArray = []
   for (var i=0; i < tds.length; i++) {
     tdsArray.push(tds[i])
   }
 
+  // gather all columns
   var firstColumn = [tdsArray[0], tdsArray[4], tdsArray[8], tdsArray[12]]
   var secondColumn = [tdsArray[1], tdsArray[5], tdsArray[9], tdsArray[13]]
   var thirdColumn = [tdsArray[2], tdsArray[6], tdsArray[10], tdsArray[14]]
@@ -95,62 +108,16 @@ function findCurrentColumn(block) {
   return targetColumn
 }
 
-function moveColumn(block, targetColumn){
-  blockIndex = targetColumn.indexOf(block);
-  var indexDifference;
-
-  // loop through array
-  for (var i=0; i < targetColumn.length; i++) {
-    if (targetColumn[i].className === "unfilled") {
-      var unfilledBlock = targetColumn[i]
-      var unfilledBlockIndex = i
-      var unfilledBlockId = unfilledBlock.id
-
-      // if the difference between blocks is greater than one, and blockIndex is greater than unfilled BlockIndex
-      // set every element's innerHTML and className equal to those of the next elements
-      // this will move columns up
-      if (blockIndex - unfilledBlockIndex > 1) {
-        indexDifference = blockIndex - unfilledBlockIndex
-        for (var j=unfilledBlockIndex; j < indexDifference+1; j++) {
-          if (targetColumn[j+1]) {
-            document.getElementById(targetColumn[j].id).innerHTML = targetColumn[j+1].innerHTML
-            document.getElementById(targetColumn[j].id).className = "filled"
-          }
-        }
-
-        // set clicked block to now be an empty block
-        block.innerHTML = ""
-        block.className = "unfilled"
-      } else if (unfilledBlockIndex - blockIndex > 1) {
-        // complete same process but in reverse for moving rows right
-        for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
-          if (targetColumn[j-1]){
-            document.getElementById(targetColumn[j].id).innerHTML = targetColumn[j-1].innerHTML
-            document.getElementById(targetColumn[j].id).className = "filled"
-          }
-        }
-        block.innerHTML = ""
-        block.className = "unfilled"
-      }
-    }
-  }
-}
-
-function moveRow(block, currentRow) {
-  // convert list of row elements into array
-  var currentRowArray = []
-  for (var i=0; i < currentRow.length; i++) {
-    currentRowArray.push(currentRow[i])
-  }
+function moveRowOrColumn(block, currentRowOrColumn) {
 
   // find block's index in array
-  var blockIndex = currentRowArray.indexOf(block);
+  var blockIndex = currentRowOrColumn.indexOf(block);
   var indexDifference;
 
   // loop through array
-  for (var i=0; i < currentRowArray.length; i++) {
-    if (currentRowArray[i].className === "unfilled") {
-      var unfilledBlock = currentRowArray[i]
+  for (var i=0; i < currentRowOrColumn.length; i++) {
+    if (currentRowOrColumn[i].className === "unfilled") {
+      var unfilledBlock = currentRowOrColumn[i]
       var unfilledBlockIndex = i
       var unfilledBlockId = unfilledBlock.id
 
@@ -160,9 +127,9 @@ function moveRow(block, currentRow) {
       if (blockIndex - unfilledBlockIndex > 1) {
         indexDifference = blockIndex - unfilledBlockIndex
         for (var j=unfilledBlockIndex; j < indexDifference+1; j++) {
-          if (currentRowArray[j+1]) {
-            document.getElementById(currentRowArray[j].id).innerHTML = currentRowArray[j+1].innerHTML
-            document.getElementById(currentRowArray[j].id).className = "filled"
+          if (currentRowOrColumn[j+1]) {
+            document.getElementById(currentRowOrColumn[j].id).innerHTML = currentRowOrColumn[j+1].innerHTML
+            document.getElementById(currentRowOrColumn[j].id).className = "filled"
           }
         }
 
@@ -172,9 +139,9 @@ function moveRow(block, currentRow) {
       } else if (unfilledBlockIndex - blockIndex > 1) {
         // complete same process but in reverse for moving rows right
         for (var j=unfilledBlockIndex; j > blockIndex-1; j--) {
-          if (currentRowArray[j-1]){
-            document.getElementById(currentRowArray[j].id).innerHTML = currentRowArray[j-1].innerHTML
-            document.getElementById(currentRowArray[j].id).className = "filled"
+          if (currentRowOrColumn[j-1]){
+            document.getElementById(currentRowOrColumn[j].id).innerHTML = currentRowOrColumn[j-1].innerHTML
+            document.getElementById(currentRowOrColumn[j].id).className = "filled"
           }
         }
         block.innerHTML = ""

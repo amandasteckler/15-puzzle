@@ -23,6 +23,10 @@ body {
   background-color: #4682B4;
 }
 
+.filled:hover {
+  background-color: #4670B4;
+}
+
 .unfilled {
   padding: 25px;
 }
